@@ -15,11 +15,24 @@ classdef Graph_pro
         
         function obj = Graph_pro(source, target, weight)
             % Load source and target. Weight is optional
-            obj.source = source;
-            obj.target = target;
-            obj.weight = weight;
             
-            obj.vertex = obj.vertexes();
+            switch nargin
+                case 2
+                    obj.source = source;
+                    obj.target = target;
+                    
+                    obj.weight = ones(1,numel(source));
+                    
+                    obj.vertex = obj.vertexes();
+                case 3
+                    obj.source = source;
+                    obj.target = target;
+                    obj.weight = weight;
+                    
+                    obj.vertex = obj.vertexes();
+            end
+            
+            
         end
         
         
@@ -30,8 +43,20 @@ classdef Graph_pro
         dist = floyd_warshall(obj);
 
         % Utils
-        vertex = vertexes(obj)
-        weight = getWeight(obj, u, v)
+        vertex = vertexes(obj);
+        weight = getWeight(obj, u, v);
+        
+        % Create graph
+        y = va(obj, x,p,filas,columnas);
+        obj = creategraph(obj, totalNodes, pro_edges, weights);
+        
+        
+        % Data
+        [s t] = readFile(obj, filename);
+        obj = readData(obj, filename);
+        
+        %Test
+        promedios = test_calc(obj, calc, numMinNodes, numMaxNodes, repeticiones);
         
         function obj = setUndirected(obj,value)
             obj.undirected = value;
