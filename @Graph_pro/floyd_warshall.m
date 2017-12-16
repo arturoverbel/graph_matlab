@@ -1,4 +1,3 @@
-
 function dist = floyd_warshall(obj)
 
     totalVertex = numel(obj.vertex);

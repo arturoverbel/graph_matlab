@@ -88,3 +88,27 @@ Gr.floyd_warshall()
 G = graph(Gr.source,Gr.target, Gr.weight);
 p = plot(G);
 labeledge(p,1:numedges(G),Gr.weight);
+%% TEst
+minNodes = 9;
+maxNodes = 30;
+repeticiones = 2000;
+
+Gr = Graph_pro();
+promediosDijkstra = Gr.test_calc("dijkstra", minNodes, maxNodes, repeticiones);
+%promediosFloyd = Gr.test_calc("floyd_warshall", minNodes, maxNodes, repeticiones);
+
+numNodes = minNodes:maxNodes;
+plot(numNodes,promediosDijkstra, '-o');
+hold off;
+%plot(numNodes,promediosFloyd, '-o');
+hold off;
+title('Tiempo de cálculo de camino más corto en Grafos aleatorios');
+ylabel('Tiempo (seconds)');
+%legend(['Dijkstra'],['Floyd-Warshall']);
+legend(['Dijkstra']);
+for k=1:numel(numNodes)
+      t1 = text(numNodes(k),promediosDijkstra(k),[num2str(promediosDijkstra(k))]);
+      t1.Color = 'red';
+      %t2 = text(numNodes(k),promediosFloyd(k),[num2str(promediosFloyd(k))]);
+      %t2.Color = 'blue';
+end
